@@ -14,58 +14,64 @@ spec:
     - match:
         - uri:
             prefix: "/blue" 
+      rewrite:
+        uri: "/"
       route:
         #<< ==== traffic splitting deployment A ==== >>#
         - destination:
             host: blue-service.default.svc.cluster.local
-            subsets: v1
+            subset: v1
             port:
               number: 9000
-            weight: 80
+          weight: 50
           #<< ==== traffic splitting deployment B ==== >>#
         - destination:
             host: blue-service.default.svc.cluster.local
-            subsets: v2
+            subset: v2
             port:
               number: 9000
-            weight: 20
+          weight: 50
 
     #<< ==== green service routes ==== >>#
     - match: 
         - uri:
-            prefix: "/green" 
+            prefix: "/green"
+      rewrite:
+        uri: "/" 
       route:
         #<< ==== traffic splitting deployment A ==== >>#
         - destination:
             host: green-service.default.svc.cluster.local
-            subsets: v1
+            subset: v1
             port:
               number: 9001
-            weight: 70
+          weight: 70
         #<< ==== traffic splitting deployment B ==== >>#
         - destination:   
             host: green-service.default.svc.cluster.local
-            subsets: v2
+            subset: v2
             port:
               number: 9001
-            weight: 30
+          weight: 30
 
     #<< ==== red service routes ==== >>#
     - match:
         - uri: 
             prefix: "/red"  
+      rewrite:
+        uri: "/"
       route:
       #<< ==== traffic splitting deployment A ==== >>#
         - destination:
             host: red-service.default.svc.cluster.local
-            subsets: v1
+            subset: v1
             port:
               number: 9002
-            weight: 90
+          weight: 90
       #<< ==== traffic splitting deployment B ==== >># 
         - destination:
             host: red-service.default.svc.cluster.local   
-            subsets: v2
+            subset: v2
             port:   
               number: 9002    
-            weight: 10
+          weight: 10
