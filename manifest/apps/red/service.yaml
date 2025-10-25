@@ -6,5 +6,5 @@ spec:
   selector:
     app: blue-deployment
   ports:
-  - port: 9000
-    targetPort: 8080
+  - port: 9002
+    targetPort: 8082

@@ -1,24 +1,24 @@
 apiVersion: apps/v2
 kind: Deployment
 metadata:
-  name: deployment
+  name: blue-deployment
   labels:
-    app: deployment
+    app: blue-deployment
     version: v2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: deployment
+      app: blue-deployment
       version: v2
   template:
     metadata:
       labels:
-        app: deployment
+        app: blue-deployment
         version: v2
     spec:
       containers:
-      - name: deployment
-        image: canary_demo_apps:v2
+      - name: blue-deployment
+        image: blue_service:v2
         ports:
         - containerPort: 8080

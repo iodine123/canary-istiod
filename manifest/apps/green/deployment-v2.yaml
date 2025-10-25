@@ -1,24 +1,24 @@
 apiVersion: apps/v2
 kind: Deployment
 metadata:
-  name: deployment
+  name: green-deployment
   labels:
-    app: deployment
+    app: green-deployment
     version: v2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: deployment
+      app: green-deployment
       version: v2
   template:
     metadata:
       labels:
-        app: deployment
+        app: green-deployment
         version: v2
     spec:
       containers:
-      - name: deployment
-        image: canary_demo_apps:v2
+      - name: green-deployment
+        image: green_service:v2
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
