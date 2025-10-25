@@ -10,11 +10,62 @@ spec:
     - api-gateway   
        
   http:
+    #<< ==== blue service routes ==== >>#
     - match:
         - uri:
-            prefix: "/" 
+            prefix: "/blue" 
       route:
+        #<< ==== traffic splitting deployment A ==== >>#
         - destination:
             host: blue-service.default.svc.cluster.local
+            subsets: v1
             port:
               number: 9000
+            weight: 80
+          #<< ==== traffic splitting deployment B ==== >>#
+        - destination:
+            host: blue-service.default.svc.cluster.local
+            subsets: v2
+            port:
+              number: 9000
+            weight: 20
+
+    #<< ==== green service routes ==== >>#
+    - match: 
+        - uri:
+            prefix: "/green" 
+      route:
+        #<< ==== traffic splitting deployment A ==== >>#
+        - destination:
+            host: green-service.default.svc.cluster.local
+            subsets: v1
+            port:
+              number: 9001
+            weight: 70
+        #<< ==== traffic splitting deployment B ==== >>#
+        - destination:   
+            host: green-service.default.svc.cluster.local
+            subsets: v2
+            port:
+              number: 9001
+            weight: 30
+
+    #<< ==== red service routes ==== >>#
+    - match:
+        - uri: 
+            prefix: "/red"  
+      route:
+      #<< ==== traffic splitting deployment A ==== >>#
+        - destination:
+            host: red-service.default.svc.cluster.local
+            subsets: v1
+            port:
+              number: 9002
+            weight: 90
+      #<< ==== traffic splitting deployment B ==== >># 
+        - destination:
+            host: red-service.default.svc.cluster.local   
+            subsets: v2
+            port:   
+              number: 9002    
+            weight: 10
